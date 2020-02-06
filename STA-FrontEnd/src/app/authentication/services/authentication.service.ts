@@ -25,8 +25,19 @@ export class AuthenticationService {
     return !!this.authenticationData;
   }
 
-  public login() {
-    this.authenticationDataSubject.next({});
+  public login(loginModel: any): boolean {
+    if (loginModel.username == 'admin' && loginModel.password == 'admin') {
+      this.authenticationDataSubject.next(loginModel);
+      this.authenticationData = loginModel;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public logout(): void {
+    this.authenticationDataSubject.next(null);
+    this.authenticationData = null;
   }
 
 }

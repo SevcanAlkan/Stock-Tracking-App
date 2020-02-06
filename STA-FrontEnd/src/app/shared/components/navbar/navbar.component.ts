@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/authentication';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   showNavbar = false;
   private subscription: Subscription;
 
-  constructor(private _authService: AuthenticationService) { 
+  constructor(private _authService: AuthenticationService,
+    private _router: Router) { 
   }
 
   ngOnInit() {
@@ -27,5 +29,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  logout() {
+    this._authService.logout();
+    this._router.navigate(['/login']);
   }
 }

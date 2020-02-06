@@ -5,7 +5,7 @@ import { AuthGuardService } from './authentication/guards/auth-guard.service';
 
 const routes: Routes = [
   { path: 'login', loadChildren: () => import('src/app/authentication/authentication.module').then(m => m.AuthenticationModule) },
-  { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuardService]},
+  { path: 'users', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuardService]},
   { path: 'products', loadChildren: () => import('./product/product.module').then(m => m.ProductModule), canActivate: [AuthGuardService] },
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuardService] },
   { path: 'customers', loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule), canActivate: [AuthGuardService] },
