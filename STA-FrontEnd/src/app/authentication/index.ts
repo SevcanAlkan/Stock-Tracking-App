@@ -6,6 +6,7 @@ export { LoginComponent } from './components/login/login.component';
 
 //Services
 export * from './services/authentication.service';
+export * from './guards/auth-guard.service';
 
 //Models
 

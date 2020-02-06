@@ -8,7 +8,7 @@ export { ProfileComponent } from './components/profile/profile.component';
 export * from './services/user.service';
 
 //Models
-
+export * from './models/user';
 
 //Enums
 

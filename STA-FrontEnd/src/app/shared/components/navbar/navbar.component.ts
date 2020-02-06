@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthenticationService } from 'src/app/authentication';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/authentication';
 
 @Component({
   selector: 'app-navbar',

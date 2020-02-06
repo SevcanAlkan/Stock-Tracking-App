@@ -6,9 +6,7 @@ import { SharedRoutingModule } from './shared-routing.module';
 
 import { ToastrModule } from 'ngx-toastr';
 
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { GridListComponent } from './components/grid-list/grid-list.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NavbarComponent, GridListComponent, PageNotFoundComponent } from './index';
 
 @NgModule({
   declarations: [NavbarComponent, GridListComponent, PageNotFoundComponent],

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
-import { AuthGuardService } from './authentication/guards/auth-guard.service';
+
+import { PageNotFoundComponent } from './shared/index';
+import { AuthGuardService } from './authentication/index';
 
 const routes: Routes = [
   { path: 'login', loadChildren: () => import('src/app/authentication/authentication.module').then(m => m.AuthenticationModule) },

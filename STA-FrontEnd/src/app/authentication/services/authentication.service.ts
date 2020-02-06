@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthenticationService {
   private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private authenticationData?: any = "";
   
-  constructor() { 
+  constructor(private _http: HttpClient) { 
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.token$ = this.tokenSubject.asObservable();
     this.authenticationData$ = this.authenticationDataSubject.asObservable();
@@ -27,8 +28,12 @@ export class AuthenticationService {
 
   public login(loginModel: any): boolean {
     if (loginModel.username == 'admin' && loginModel.password == 'admin') {
+
+      
+
       this.authenticationDataSubject.next(loginModel);
       this.authenticationData = loginModel;
+
       return true;
     } else {
       return false;
