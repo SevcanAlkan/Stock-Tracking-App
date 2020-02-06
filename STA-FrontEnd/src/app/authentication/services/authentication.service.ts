@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -16,7 +15,7 @@ export class AuthenticationService {
   private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private authenticationData?: any = "";
   
-  constructor(private _http: HttpClient) { 
+  constructor() { 
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.token$ = this.tokenSubject.asObservable();
     this.authenticationData$ = this.authenticationDataSubject.asObservable();

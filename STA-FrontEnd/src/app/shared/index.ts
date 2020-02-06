@@ -11,7 +11,7 @@ export * from './services/push-notification.service';
 export * from './services/message-dialog.service';
 
 //Models
-
+export * from './models/base-model';
 
 //Enums
 

@@ -6,10 +6,10 @@ export { ProductDetailComponent } from './components/product-detail/product-deta
 
 
 //Services
-
+export * from './services/product.service';
 
 //Models
-
+export * from './models/product';
 
 //Enums
 
