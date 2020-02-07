@@ -11,8 +11,8 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ username: "", password: "" });  
   private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private authenticationData?: any = "";
-  private token: string;
+  private authenticationData?: any = '';
+  private token: string = '';
   
   constructor() { 
     this.currentUser$ = this.currentUserSubject.asObservable();    

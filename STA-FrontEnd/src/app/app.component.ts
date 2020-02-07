@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from './product';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  constructor(private test: ProductService) {
     
   }
 
   ngOnInit() {
+    this.test.getAll().subscribe(s => console.log(s));
   }
 }
