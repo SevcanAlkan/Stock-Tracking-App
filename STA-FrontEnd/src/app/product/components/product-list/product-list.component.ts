@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../..';
 
 @Component({
   selector: 'app-product-list',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private test: ProductService) { }
 
   ngOnInit() {
+    this.test.getAll().subscribe(s => console.log(s));
+
   }
 
 }
