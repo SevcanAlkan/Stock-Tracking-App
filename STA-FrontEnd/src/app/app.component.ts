@@ -8,11 +8,10 @@ import { ProductService } from './product';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private test: ProductService) {
+  constructor() {
     
   }
 
   ngOnInit() {
-    this.test.getAll().subscribe(s => console.log(s));
   }
 }

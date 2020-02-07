@@ -15,9 +15,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     CommonModule,
     AuthenticationRoutingModule,
     ReactiveFormsModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })
 export class AuthenticationModule { }

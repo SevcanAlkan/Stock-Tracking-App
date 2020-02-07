@@ -21,9 +21,6 @@ import { LoggingInterceptor } from './interceptors/log.interceptor';
   exports: [
     NavbarComponent,
     GridListComponent
-  ],
-  providers: [
-     { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true }
-   ]
+  ]
 })
 export class SharedModule { }
