@@ -6,23 +6,25 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthenticationService {
 
-  public currentUser$: Observable<any>;
-  public token$: Observable<string>;
+  public currentUser$: Observable<any>;  
   public authenticationData$: Observable<any>;
 
-  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ username: "", password: "" });
-  private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ username: "", password: "" });  
   private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private authenticationData?: any = "";
+  private token: string;
   
   constructor() { 
-    this.currentUser$ = this.currentUserSubject.asObservable();
-    this.token$ = this.tokenSubject.asObservable();
+    this.currentUser$ = this.currentUserSubject.asObservable();    
     this.authenticationData$ = this.authenticationDataSubject.asObservable();
   }
 
   public isAuthenticated(): boolean {
     return !!this.authenticationData;
+  }
+
+  public getToken(): string {
+    return this.token;
   }
 
   public login(loginModel: any): boolean {
