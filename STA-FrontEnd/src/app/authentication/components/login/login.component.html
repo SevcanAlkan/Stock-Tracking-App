@@ -9,30 +9,30 @@
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" aria-describedby="username-validation" formControlName="username">
-                    <p id="username-validation" class="form-text text-muted" *ngIf="loginForm.controls['username'].touched && !loginForm.controls['username'].valid">
-                        <span class="text-danger" *ngIf="loginForm.controls['username'].errors?.required">
+                    <input type="text" class="form-control" id="username" aria-describedby="username-validation" formControlName="UserName">
+                    <p id="username-validation" class="form-text text-muted" *ngIf="loginForm.controls['UserName'].touched && !loginForm.controls['UserName'].valid">
+                        <span class="text-danger" *ngIf="loginForm.controls['UserName'].errors?.required">
                             Username is required!
                         </span>
-                        <span class="text-danger" *ngIf="loginForm.controls['username'].errors?.minlength; let usernameToShort">
+                        <span class="text-danger" *ngIf="loginForm.controls['UserName'].errors?.minlength; let usernameToShort">
                             Username must be least {{usernameToShort.requiredLength}} character!
                         </span>
-                        <span class="text-danger" *ngIf="loginForm.controls['username'].errors?.maxlength; let usernameToLong">
+                        <span class="text-danger" *ngIf="loginForm.controls['UserName'].errors?.maxlength; let usernameToLong">
                             Username can be up to {{usernameToLong.requiredLength}} characters!
                         </span>
                     </p>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" aria-describedby="password-validation" formControlName="password">
-                    <p id="password-validation" class="form-text text-muted" *ngIf="loginForm.controls['password'].touched && !loginForm.controls['password'].valid">
-                        <span class="text-danger" *ngIf="loginForm.controls['password'].errors?.required">
+                    <input type="password" class="form-control" id="password" aria-describedby="password-validation" formControlName="PasswordHash">
+                    <p id="password-validation" class="form-text text-muted" *ngIf="loginForm.controls['PasswordHash'].touched && !loginForm.controls['PasswordHash'].valid">
+                        <span class="text-danger" *ngIf="loginForm.controls['PasswordHash'].errors?.required">
                             Password is required!
                         </span>
-                        <span class="text-danger" *ngIf="loginForm.controls['password'].errors?.minlength; let passwordToShort">
+                        <span class="text-danger" *ngIf="loginForm.controls['PasswordHash'].errors?.minlength; let passwordToShort">
                             Password must be least {{passwordToShort.requiredLength}} character!
                         </span>
-                        <span class="text-danger" *ngIf="loginForm.controls['password'].errors?.maxlength; let passwordToLong">
+                        <span class="text-danger" *ngIf="loginForm.controls['PasswordHash'].errors?.maxlength; let passwordToLong">
                             Password can be up to {{passwordToLong.requiredLength}} characters!
                         </span>
                     </p>

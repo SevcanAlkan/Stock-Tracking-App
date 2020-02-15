@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NGA.Data.Service;
 using NGA.Data.ViewModel;
 using NGA.Domain;
-using System;
-using System.Threading.Tasks;
 
 namespace NGA.MonolithAPI.Controllers.V2
 {

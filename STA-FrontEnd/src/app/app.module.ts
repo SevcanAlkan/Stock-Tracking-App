@@ -5,14 +5,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-//Modules
-import { SharedModule } from './shared/shared.module'
+// Modules
+import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 
-
-import { AuthInterceptor } from './authentication';
-import { LoggingInterceptor, CacheInterceptor } from './shared';
-
+import { AuthInterceptor } from './authentication/interceptors/auth.interceptor';
+import { CacheInterceptor } from './shared/interceptors/cache.interceptor';
+import { LoggingInterceptor } from './shared/interceptors/log.interceptor';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,7 @@ import { LoggingInterceptor, CacheInterceptor } from './shared';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,    
+    HttpClientModule,
     AuthenticationModule,
     SharedModule
   ],

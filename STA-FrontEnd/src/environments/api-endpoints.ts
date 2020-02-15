@@ -4,16 +4,17 @@ export function GenerateRoutes(apiUrl: string) {
         baseUrl: apiUrl,
 
         products: {
-            baseUrl: apiUrl + "/products"
+            baseUrl: apiUrl + '/product'
         },
         customers: {
-            baseUrl: apiUrl + "/customers"
+            baseUrl: apiUrl + '/customer'
         },
         users: {
-            baseUrl: apiUrl + "/users"
+            baseUrl: apiUrl + '/user'
         },
         auth: {
-            token: apiUrl + "/getToken"
+            token: apiUrl + '/authentication/CreateToken',
+            register: apiUrl + '/authentication/register'
         }
     };
 }

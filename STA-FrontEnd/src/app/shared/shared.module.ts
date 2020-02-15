@@ -5,17 +5,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedRoutingModule } from './shared-routing.module';
 
 import { ToastrModule } from 'ngx-toastr';
-
-import { NavbarComponent, GridListComponent, PageNotFoundComponent } from './index';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoggingInterceptor } from './interceptors/log.interceptor';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { GridListComponent } from './components/grid-list/grid-list.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [NavbarComponent, GridListComponent, PageNotFoundComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
   exports: [

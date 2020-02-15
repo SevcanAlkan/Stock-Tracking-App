@@ -12,17 +12,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   showNavbar = false;
   private subscription: Subscription;
+  public userName = '';
 
-  constructor(private _authService: AuthenticationService,
-    private _router: Router) { 
+  constructor(private authService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.subscription = this._authService.authenticationData$.subscribe(data => {
+    this.subscription = this.authService.authenticationData$.subscribe(data => {
       if (!data) {
         this.showNavbar = false;
+        this.userName = '';
       } else {
-        this.showNavbar = true; 
+        this.showNavbar = true;
+        this.userName = data.DisplayName;
       }
     });
   }
@@ -32,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._authService.logout();
-    this._router.navigate(['/login']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

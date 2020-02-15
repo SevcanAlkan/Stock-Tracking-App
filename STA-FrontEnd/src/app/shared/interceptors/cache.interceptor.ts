@@ -1,4 +1,4 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpEventType } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -6,18 +6,17 @@ import { HttpCacheService } from '../services/http-cache.service';
 
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-    constructor(private _cacheService: HttpCacheService) { }
-    
+    constructor(private cacheService: HttpCacheService) { }
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
+
         if (req.method !== 'GET' || req.headers.has('dont-cache')) {
-            console.log(req.method)
             console.log(`Cache interceptor passed - ${req.url}`);
             return next.handle(req);
-            //Use signalR to detect changes!
+            // Use signalR to detect changes!
         }
 
-        const cachedResponse: HttpResponse<any> = this._cacheService.get(req.url);
+        const cachedResponse: HttpResponse<any> = this.cacheService.get(req.url);
 
         if (cachedResponse) {
             console.log(`Returning data from cached response - ${cachedResponse.url}`);
@@ -27,7 +26,7 @@ export class CacheInterceptor implements HttpInterceptor {
                 tap(event => {
                     if (event.type === HttpEventType.Response) {
                         console.log(`Adding data to the cache - ${req.url}`);
-                        this._cacheService.put(req.url, event);
+                        this.cacheService.put(req.url, event);
                     }
                 })
             );
