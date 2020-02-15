@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace NGA.MonolithAPI.Helper
+namespace NGA.Core
 {
     public static class GetHostMachineIP
     {
@@ -14,10 +14,10 @@ namespace NGA.MonolithAPI.Helper
             {
                 ipAddress = Dns.GetHostAddresses(new Uri("http://docker.for.win.localhost").Host)[0].ToString();
             }
-            catch (SocketException es)
+            catch (SocketException)
             {
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 

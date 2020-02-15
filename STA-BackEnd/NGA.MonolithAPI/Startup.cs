@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using NGA.Core;
 using NGA.Data;
@@ -19,12 +20,14 @@ using NGA.Data.SubStructure;
 using NGA.Domain;
 using NGA.MonolithAPI.Config;
 using NGA.MonolithAPI.Fillter;
-using NGA.MonolithAPI.Helper;
 using NGA.MonolithAPI.Middleware;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 
 namespace NGA.MonolithAPI
@@ -51,33 +54,21 @@ namespace NGA.MonolithAPI
         }
 
         public IConfiguration Configuration { get; }
+        readonly string myCorsPolicy = "apiCorsPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             #region Add CORS
-            services.AddCors(options => options.AddPolicy("CorsPolicy",
-            builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins("http://localhost:4200", "http://192.168.0.102:4200")
-                 ));
-            #endregion
-
-            #region Swagger 
-
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Next Generation API", Version = "v1" });
-                s.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Next Generation API", Version = "v2" });
-
-                // Apply the filters
-                s.OperationFilter<RemoveVersionFromParameter>();
-                s.DocumentFilter<ReplaceVersionWithExactValueInPath>();
-
-            });
-
+            services.AddCors(options =>
+                options.AddPolicy(myCorsPolicy, builder =>
+                {
+                    builder
+                        .WithOrigins(new[] { "http://localhost:4200" })
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }));
             #endregion
 
             #region Add Entity Framework and Identity Framework
@@ -171,7 +162,7 @@ namespace NGA.MonolithAPI
             services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
-            #region Dependency Injection 
+            #region Dependency Injection
 
             services.AddSingleton(mapper);
             services.AddDbContext<NGADbContext>(db => db.UseSqlServer(StaticValues.DBConnectionString));
@@ -208,44 +199,73 @@ namespace NGA.MonolithAPI
             });
 
             #endregion
+
+            #region Swagger
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("1", new OpenApiInfo() { Title = "Next Generation API", Version = "1" });
+                s.SwaggerDoc("2", new OpenApiInfo() { Title = "Next Generation API", Version = "2" });
+
+                // Apply the filters
+                s.OperationFilter<RemoveVersionFromParameter>();
+                s.DocumentFilter<ReplaceVersionWithExactValueInPath>();
+
+
+
+                s.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    return versions.Any(v => $"v{v.ToString()}" == docName);
+                });
+            });
+            //services.AddSwaggerGenNewtonsoftSupport();
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, NGADbContext dbContext, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             ParameterHelperLoder.LoadStaticValues(dbContext);
+            DbInitializer.Initialize(dbContext);
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             loggerFactory.AddSerilog();
 
-            //app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "NGA V1");
-                s.SwaggerEndpoint("/swagger/v2/swagger.json", "NGA V2");
+                s.SwaggerEndpoint("/swagger/1/swagger.json", "NGA V1");
+                s.SwaggerEndpoint("/swagger/2/swagger.json", "NGA V2");
+
+                s.RoutePrefix = string.Empty;
             });
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            app.UseCors("CorsPolicy");
 
             //app.UseSignalR(routes =>
             //{
             //    routes.MapHub<ChatHub>("/chathub");  //https://stackoverflow.com/questions/43181561/signalr-in-asp-net-core-1-1
             //});
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseCors(myCorsPolicy);
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

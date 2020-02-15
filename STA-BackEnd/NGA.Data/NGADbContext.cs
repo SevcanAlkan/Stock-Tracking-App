@@ -39,6 +39,8 @@ namespace NGA.Data
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
+            //DbInitializer.Initialize(modelBuilder);
+           
             base.OnModelCreating(modelBuilder);
         }
 

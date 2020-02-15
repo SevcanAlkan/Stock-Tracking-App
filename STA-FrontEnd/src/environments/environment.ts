@@ -4,7 +4,8 @@ import { GenerateRoutes } from './api-endpoints';
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const apiUrl: string =  'http://localhost:5000';
+const apiVer = 'v2';
+const apiUrl =  `https://localhost:5001/api/${apiVer}`;
 
 export const environment = {
   production: false,

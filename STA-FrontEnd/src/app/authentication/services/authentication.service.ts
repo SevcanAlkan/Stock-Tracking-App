@@ -1,49 +1,67 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { LoginVM } from '../models/login.model';
+import { AuthenticationData } from '../models/authentication-data.model';
+import { map, catchError } from 'rxjs/operators';
+import { User } from 'src/app/user/models/user';
+import { UserService } from 'src/app/user/services/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  public currentUser$: Observable<any>;  
-  public authenticationData$: Observable<any>;
+  public currentUser$: Observable<User>;
+  public authenticationData$: Observable<AuthenticationData>;
 
-  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>({ username: "", password: "" });  
-  private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private authenticationData?: any = '';
-  private token: string = '';
-  
-  constructor() { 
-    this.currentUser$ = this.currentUserSubject.asObservable();    
+  private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private authenticationDataSubject: BehaviorSubject<any> = new BehaviorSubject<AuthenticationData>(null);
+
+  private authData: AuthenticationData = null;
+
+  constructor(
+    private http: HttpClient,
+    private userService: UserService
+    ) {
+    this.currentUser$ = this.currentUserSubject.asObservable();
     this.authenticationData$ = this.authenticationDataSubject.asObservable();
   }
 
-  public isAuthenticated(): boolean {
-    return !!this.authenticationData;
-  }
+  public login(loginModel: LoginVM): Observable<boolean> {
 
-  public getToken(): string {
-    return this.token;
-  }
+    const reqHeaders = new HttpHeaders({ 'dont-authenticate': '', 'dont-cache': '' });
 
-  public login(loginModel: any): boolean {
-    if (loginModel.username == 'admin' && loginModel.password == 'admin') {
-
-      
-
-      this.authenticationDataSubject.next(loginModel);
-      this.authenticationData = loginModel;
-
-      return true;
-    } else {
-      return false;
-    }
+    return this.http.post(environment.api.auth.token, loginModel, { headers: reqHeaders }).pipe(map(result => {
+      if (result.hasOwnProperty('Token')) {
+        this.authData = result as AuthenticationData;
+        this.authenticationDataSubject.next(result);
+        this.loadUser();
+        return true;
+      } else {
+        return false;
+      }
+    }), catchError(err => this.handleHttpError(err)));
   }
 
   public logout(): void {
+    this.authData = null;
     this.authenticationDataSubject.next(null);
-    this.authenticationData = null;
   }
 
+  private loadUser(): void {
+    if (this.authData) {
+      this.userService.getById(this.authData.UserId).subscribe(user => {
+        if (user) {
+          this.currentUserSubject.next(user as User);
+        }
+      });
+    }
+  }
+
+  private handleHttpError(error: HttpErrorResponse): Observable<boolean> {
+    console.log(error);
+    return of(false);
+  }
 }

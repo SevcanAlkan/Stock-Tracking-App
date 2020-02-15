@@ -3,33 +3,46 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationData } from '../models/authentication-data.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private _authService: AuthenticationService) {     
+    private authData: AuthenticationData = null;
+
+    constructor(private authService: AuthenticationService,
+                private router: Router) {
+        this.authService.authenticationData$.subscribe(s => this.authData = s);
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        console.log(`Authentication Interceptor - ${this._authService.getToken()}`);
-
-        const headers = new HttpHeaders({
-            'Authorization': this._authService.getToken(),
-            'Content-Type': 'application/json'
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+            'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+            'Access-Control-Allow-Credentials': 'true'
         });
 
+        if (!req.headers.has('dont-authenticate') && this.authData) {
+            headers = headers.append('Authorization', 'Bearer ' + this.authData.Token);
+        }
+
         const modifiedRequest = req.clone({
-            headers           
+            headers
         });
 
         return next.handle(modifiedRequest)
             .pipe(
                 tap(event => {
                     if (event instanceof HttpResponse) {
-                        //modify response here
+                        if (event.status === 401) {
+                            this.authService.logout();
+                            this.router.navigate(['/login']);
+                        }
                     }
-            })
-        );
+                })
+            );
     }
 }

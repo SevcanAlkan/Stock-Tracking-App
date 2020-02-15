@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MessageDialogService } from 'src/app/shared';
+import { LoginVM } from '../../models/login.model';
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -18,23 +19,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   showNavbar = false;
   private subscription: Subscription;
 
-  constructor(private _authService: AuthenticationService,
-    private _fb: FormBuilder,
-    private _router: Router,
-    private _msg: MessageDialogService) { }
+  constructor(
+    private authService: AuthenticationService,
+    private fb: FormBuilder,
+    private router: Router,
+    private msg: MessageDialogService) { }
 
   ngOnInit() {
-    this.subscription = this._authService.authenticationData$.subscribe(data => {
+    this.subscription = this.authService.authenticationData$.subscribe(data => {
       if (data) {
         this.showNavbar = false;
       } else {
-        this.showNavbar = true; 
+        this.showNavbar = true;
       }
     });
 
-    this.loginForm = this._fb.group({
-      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
-      password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
+    this.loginForm = this.fb.group({
+      UserName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      PasswordHash: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
     });
   }
 
@@ -46,19 +48,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm.markAllAsTouched();
     this.isSending = true;
 
-    if (this.loginForm.valid) {
-      const data = this.loginForm.value;
+    // Trim fields
 
-      console.log(data);
-      if (this._authService.login(data)) {
-        this._router.navigate(['/dashboard']);
-      } else {
-        this._msg.showError('Error!', 'Username or password is not correct!');
-      }
-    } else {  
-      this._msg.showWarning('Warning!', "The login form isn't valid!");
+    if (this.loginForm.valid) {
+      const data = (this.loginForm.value as LoginVM);
+
+      data.UserName = data.UserName.replace(/\s/g, '');
+      data.PasswordHash = data.PasswordHash.replace(/\s/g, '');
+
+      this.authService.login(data).subscribe(result => {
+        if (result) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.msg.showError('Error!', 'Username or password is not correct!');
+        }
+      });
+    } else {
+      this.msg.showWarning('Warning!', 'The login form isn\'t valid!');
     }
-    
+
     this.isSending = false;
   }
 

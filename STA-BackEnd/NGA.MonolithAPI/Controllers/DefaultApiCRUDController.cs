@@ -78,7 +78,7 @@ namespace NGA.MonolithAPI.Controllers.V2
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status500InternalServerError)]
-        public virtual async Task<ActionResult> Add(A model)
+        public virtual async Task<ActionResult> Add([FromBody]A model)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace NGA.MonolithAPI.Controllers.V2
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status500InternalServerError)]
-        public virtual async Task<ActionResult> Update(Guid id, U model)
+        public virtual async Task<ActionResult> Update(Guid id, [FromBody]U model)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace NGA.MonolithAPI.Controllers.V2
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ActionResult), StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult> Delete(Guid id)
-        {           
+        {
             try
             {
                 if (id == null || id == Guid.Empty)
