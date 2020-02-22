@@ -11,18 +11,18 @@ namespace STA.Stock.Model.DTO
         public string PictureId { get; set; }
     }
 
-    public class Model : ModelBase
+    public class ModelDTO : ModelBase
     {
 
 
         //Foreign Keys...
-        public virtual Brand Brand { get; set; }
+        public virtual BrandDTO Brand { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductDTO> Products { get; set; }
 
-        public Model()
+        public ModelDTO()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductDTO>();
         }
     }
 }

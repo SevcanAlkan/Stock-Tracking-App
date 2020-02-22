@@ -4,7 +4,7 @@ using System;
 
 namespace STA.Communication.Model.DTO
 {
-    public class Message : BaseBson
+    public class MessageDTO : BaseBson
     {
         public string Text { get; set; }
         public Guid UserId { get; set; }

@@ -4,25 +4,25 @@ using System.Text;
 
 namespace STA.Stock.Data.Service
 {
-    public class ProductService : BaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>, IProductService
-    {
-        #region Ctor
+    //public class ProductService : BaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>, IProductService
+    //{
+    //    #region Ctor
 
-        public ProductService(UnitOfWork<ProductDbContext> _uow, IMapper _mapper, ILogger<BaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>> _logger)
-            : base(_uow, _mapper, _logger)
-        {
+    //    public ProductService(UnitOfWork<ProductDbContext> _uow, IMapper _mapper, ILogger<BaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>> _logger)
+    //        : base(_uow, _mapper, _logger)
+    //    {
 
-        }
+    //    }
 
-        #endregion
+    //    #endregion
 
-        #region Methods
+    //    #region Methods
 
-        #endregion
-    }
+    //    #endregion
+    //}
 
-    public interface IProductService : IBaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>
-    {
-        List<ProductVM> GetProductsByGroupId(Guid groupId);
-    }
+    //public interface IProductService : IBaseService<ProductAddVM, ProductUpdateVM, ProductVM, ProductDTO, ProductDbContext>
+    //{
+    //    List<ProductVM> GetProductsByGroupId(Guid groupId);
+    //}
 }

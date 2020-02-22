@@ -15,18 +15,18 @@ namespace STA.Stock.Model.DTO
         public int StockCount { get; set; } // From ProductStock
     }
 
-    public class Product : ProductBase
+    public class ProductDTO : ProductBase
     {
 
         //Foreign Keys...
-        public virtual Model Model { get; set; }
-        public virtual Color  Color { get; set; }
+        public virtual ModelDTO Model { get; set; }
+        public virtual ColorDTO  Color { get; set; }
 
-        public virtual ICollection<ProductStock> Stock { get; set; }
+        public virtual ICollection<ProductStockDTO> Stock { get; set; }
 
-        public Product()
+        public ProductDTO()
         {
-            Stock = new HashSet<ProductStock>();
+            Stock = new HashSet<ProductStockDTO>();
         }
     }
 }

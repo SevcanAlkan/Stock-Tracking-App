@@ -11,17 +11,17 @@ namespace STA.Stock.Model.DTO
         public int Amount { get; set; }
     }
 
-    public class ProductStock : ProductStockBase
+    public class ProductStockDTO : ProductStockBase
     {
 
 
         //Foreign Keys...
-        public virtual Product Product { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ProductDTO Product { get; set; }
+        public virtual ICollection<OrderDTO> Orders { get; set; }
 
-        public ProductStock()
+        public ProductStockDTO()
         {
-            Orders = new HashSet<Order>();
+            Orders = new HashSet<OrderDTO>();
         }
     }
 }

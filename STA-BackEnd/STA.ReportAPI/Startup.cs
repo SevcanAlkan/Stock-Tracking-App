@@ -1,18 +1,20 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
-using System;
-using System.Text;
 
-namespace STA.AuthenticationAPI
+namespace STA.ReportAPI
 {
     public class Startup
     {
@@ -39,36 +41,6 @@ namespace STA.AuthenticationAPI
                 }));
             #endregion
 
-            #region Add Authentication
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-           .AddJwtBearer(options =>
-           {
-               var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<String>("Jwt:Key")));
-
-               options.RequireHttpsMetadata = false;
-               options.SaveToken = true;
-
-               options.TokenValidationParameters = new TokenValidationParameters
-               {
-                   LifetimeValidator = (before, expires, token, param) =>
-                   {
-                       return expires > DateTime.UtcNow;
-                   },
-                   ValidateIssuer = true,
-                   ValidateAudience = true,
-                   ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = signingKey,
-                   ValidAudience = Configuration["Jwt:Audience"],
-                   ValidIssuer = Configuration["Jwt:Issuer"],
-               };
-
-           });
-            #endregion
-
             #region MVC Configuration
             services.AddControllers(options =>
             {
@@ -83,7 +55,7 @@ namespace STA.AuthenticationAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

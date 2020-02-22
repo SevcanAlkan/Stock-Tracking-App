@@ -15,16 +15,16 @@ namespace STA.Stock.Model.DTO
         public Gender Gender { get; set; }
     }
 
-    public class Customer : CustomerBase
+    public class CustomerDTO : CustomerBase
     {
 
 
         //Foreign Keys...
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<OrderDTO> Orders { get; set; }
 
-        public Customer()
+        public CustomerDTO()
         {
-            Orders = new HashSet<Order>();
+            Orders = new HashSet<OrderDTO>();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace STA.Communication.Model.DTO
 {
-    public class WallMessage : BaseBson
+    public class WallMessageDTO : BaseBson
     {
         public DateTime SentDateTime { get; set; }
         public Guid UserId { get; set; }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace STA.Communication.Model.DTO
 {
-    public class Group : BaseBson
+    public class GroupDTO : BaseBson
     {
         public string Name { get; set; }
         public string Description { get; set; }

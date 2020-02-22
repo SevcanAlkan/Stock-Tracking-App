@@ -8,14 +8,14 @@ namespace STA.Stock.Model.DTO
         public string Name { get; set; }
     }
 
-    public class Brand : BrandBase
+    public class BrandDTO : BrandBase
     {
 
         //Foreign Keys...
-        public virtual ICollection<Model> Models { get; set; }
-        public Brand()
+        public virtual ICollection<ModelDTO> Models { get; set; }
+        public BrandDTO()
         {
-            Models = new HashSet<Model>();
+            Models = new HashSet<ModelDTO>();
         }
     }
 }

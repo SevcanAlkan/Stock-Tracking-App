@@ -9,7 +9,7 @@ namespace STA.User.Data
     {
         public UserDbContext CreateDbContext(string[] args)
         {
-            IConfiguration config = ConfigrationHelper.Get("../Service/STA.UserAPI");
+            IConfiguration config = ConfigrationHelper.Get("../../Service/STA.UserAPI");
 
             var optionsBuilder = new DbContextOptionsBuilder<UserDbContext>();
             optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));

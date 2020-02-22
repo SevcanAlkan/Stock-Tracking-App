@@ -11,14 +11,14 @@ namespace STA.Stock.Model.DTO
         public string Code { get; set; } // Hex or RGB
     }
 
-    public class Color : ColorBase
+    public class ColorDTO : ColorBase
     {
 
         //Foreign Keys...
-        public virtual ICollection<Product> Products { get; set; }
-        public Color()
+        public virtual ICollection<ProductDTO> Products { get; set; }
+        public ColorDTO()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductDTO>();
         }
     }
 }

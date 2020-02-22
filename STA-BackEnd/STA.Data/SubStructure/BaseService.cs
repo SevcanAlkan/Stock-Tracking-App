@@ -137,12 +137,6 @@ namespace STA.Data.SubStructure
 
                 entity = mapper.Map<U, D>(model, entity);
 
-                if (entity is ITable)
-                {
-                    (entity as ITable).UpdateBy = _userId;
-                    (entity as ITable).UpdateDT = DateTime.Now;
-                }
-
                 Repository.Update(entity);
 
                 if (isCommit)
@@ -165,12 +159,6 @@ namespace STA.Data.SubStructure
                 D entity = await uow.Repository<D>().GetByID(id);
                 if (Validation.IsNull(entity))
                     return false;
-
-                if (entity is ITable)
-                {
-                    (entity as ITable).UpdateBy = _userId;
-                    (entity as ITable).UpdateDT = DateTime.Now;
-                }
 
                 entity.IsDeleted = true;
                 Repository.Update(entity);
@@ -195,12 +183,6 @@ namespace STA.Data.SubStructure
                 D entity = await uow.Repository<D>().GetByID(id);
                 if (Validation.IsNull(entity))
                     return false;
-
-                if (entity is ITable)
-                {
-                    (entity as ITable).UpdateBy = _userId;
-                    (entity as ITable).UpdateDT = DateTime.Now;
-                }
 
                 entity.IsDeleted = false;
                 Repository.Update(entity);

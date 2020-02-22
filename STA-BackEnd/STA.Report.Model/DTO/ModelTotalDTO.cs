@@ -5,7 +5,7 @@ using System.Text;
 
 namespace STA.Report.Model.DTO
 {
-    public class ModelTotal : BaseBson
+    public class ModelTotalDTO : BaseBson
     {
         public int SoldAmount { get; set; }
         public double TotalIncome { get; set; }

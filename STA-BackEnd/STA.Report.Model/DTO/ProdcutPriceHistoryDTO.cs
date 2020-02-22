@@ -5,7 +5,7 @@ using System.Text;
 
 namespace STA.Report.Model.DTO
 {
-    public class ProdcutPriceHistory : BaseBson
+    public class ProdcutPriceHistoryDTO : BaseBson
     {
         public Guid ProdcutId { get; set; }
         public DateTime ChangeDate { get; set; }

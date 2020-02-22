@@ -16,16 +16,16 @@ namespace STA.Stock.Model.DTO
         public int Followers { get; set; }
     }
 
-    public class Infuluencer : InfuluencerBase
+    public class InfuluencerDTO : InfuluencerBase
     {
 
 
         //Foreign Keys...
-        public virtual ICollection<AdCampain> Campains { get; set; }
+        public virtual ICollection<AdCampainDTO> Campains { get; set; }
 
-        public Infuluencer()
+        public InfuluencerDTO()
         {
-            Campains = new HashSet<AdCampain>();
+            Campains = new HashSet<AdCampainDTO>();
         }
     }
 }

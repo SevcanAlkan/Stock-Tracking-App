@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
+using STA.Core.Filter;
 using STA.Core.Middleware;
 
 namespace STA.StockAPI
@@ -30,6 +32,16 @@ namespace STA.StockAPI
                         .AllowAnyHeader()
                         .AllowCredentials();
                 }));
+            #endregion
+
+            #region MVC Configuration
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ValidatorActionFilter));
+            }).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
             #endregion
 
             services.AddControllers();

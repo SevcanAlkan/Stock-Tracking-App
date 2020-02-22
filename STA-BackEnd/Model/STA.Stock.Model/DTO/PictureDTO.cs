@@ -2,7 +2,7 @@
 
 namespace STA.Stock.Model.DTO
 {
-    public class Picture : BaseBson
+    public class PictureDTO : BaseBson
     {
         public string ModelId { get; set; }
 

@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace STA.Report.Model.DTO
+namespace STA.Communication.Model.DTO
 {
-    public class SystemLog : BaseBson
+    public class StatusUpdateDTO : BaseBson
     {
-        public DateTime DateTime { get; set; }
         public string Content { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime DateTime { get; set; }
         public Guid RecId { get; set; }
         public RefTable Table { get; set; }
     }

@@ -15,14 +15,14 @@ namespace STA.Stock.Model.DTO
         public Guid InfuluencerId { get; set; }
     }
 
-    public class AdCampain : AdCampainBase
+    public class AdCampainDTO : AdCampainBase
     {
 
 
         //Foreign Keys...
-        public virtual Infuluencer Infuluencer { get; set; }
+        public virtual InfuluencerDTO Infuluencer { get; set; }
 
-        public AdCampain()
+        public AdCampainDTO()
         {
 
         }
