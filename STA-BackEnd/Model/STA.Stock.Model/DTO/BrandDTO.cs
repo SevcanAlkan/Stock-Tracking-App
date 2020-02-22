@@ -1,10 +1,14 @@
 ﻿using STA.Core.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using STA.Core.Validation;
 
 namespace STA.Stock.Model.DTO
 {
     public class BrandBase : Table
     {
+        [Required, MaxLength(100)]
         public string Name { get; set; }
     }
 
