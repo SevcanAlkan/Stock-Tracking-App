@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Common\STA.Core\STA.Core.csproj" />
     <ProjectReference Include="..\..\Common\STA.EventBus\STA.EventBus.csproj" />
     <ProjectReference Include="..\..\Data\STA.Stock.Data\STA.Stock.Data.csproj" />

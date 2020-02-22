@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using STA.Core.EntityFramework;
 using STA.Core.Enum;
 using System;
 
 namespace STA.User.Model.DTO
 {
-    public class UserBase : IdentityUser<Guid>
+    public class UserBase : IdentityUser<Guid>, IBase
     {
         public DateTime? LastLoginDateTime { get; set; }
         public bool IsAdmin { get; set; }
@@ -16,12 +17,13 @@ namespace STA.User.Model.DTO
         public UserStatus Status { get; set; }
 
         public DateTime CreateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
-    public class User : UserBase
+    public class UserDTO : UserBase
     {
         //Foreign keys
-        public User()
+        public UserDTO()
         {
         }
     }
