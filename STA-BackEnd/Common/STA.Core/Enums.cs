@@ -6,6 +6,7 @@
         Idle = 2,
         DontDisturb = 3,
         Invisible = 4,
+        Offline = 5
     }
 
     public enum HTTPMethodType : byte
