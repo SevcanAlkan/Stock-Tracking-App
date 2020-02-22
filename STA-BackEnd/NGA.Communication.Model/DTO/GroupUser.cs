@@ -1,7 +1,7 @@
 ﻿using NGA.Core.EntityFramework;
 using System;
 
-namespace NGA.Domain
+namespace NGA.Communication.Model.DTO
 {
     public class GroupUserBase : Base
     {
@@ -13,7 +13,6 @@ namespace NGA.Domain
     {
         //Foreign keys
         public virtual Group Group { get; set; }
-        public virtual User User { get; set; }
 
         public GroupUser()
         {

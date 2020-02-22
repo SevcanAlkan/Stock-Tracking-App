@@ -1,7 +1,7 @@
 ﻿using NGA.Core.EntityFramework;
 using System.Collections.Generic;
 
-namespace NGA.Domain
+namespace NGA.Communication.Model.DTO
 {
     public class GroupBase : Table
     {

@@ -9,12 +9,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using NGA.Core;
+using NGA.Core.MongoDB;
 using NGA.Data;
 using NGA.Data.Helper;
+using NGA.Data.MongoDB;
 using NGA.Data.Service;
 using NGA.Data.SubStructure;
 using NGA.Domain;
@@ -169,6 +172,8 @@ namespace NGA.MonolithAPI
             services.AddTransient<UnitOfWork>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
+            services.AddSingleton<IMongoService, MongoService>();
+
             services.AddTransient<IParameterService, ParameterService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IGroupUserService, GroupUserService>();
@@ -255,11 +260,6 @@ namespace NGA.MonolithAPI
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            //app.UseSignalR(routes =>
-            //{
-            //    routes.MapHub<ChatHub>("/chathub");  //https://stackoverflow.com/questions/43181561/signalr-in-asp-net-core-1-1
-            //});
 
             app.UseHttpsRedirection();
             app.UseRouting();

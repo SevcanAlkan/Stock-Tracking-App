@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NGA.Core.Enum;
 using System;
-using System.Collections.Generic;
 
-namespace NGA.Domain
+namespace NGA.User.Model.DTO
 {
     public class UserBase : IdentityUser<Guid>
     {
@@ -14,8 +13,6 @@ namespace NGA.Domain
         public string DisplayName { get; set; }
         public string About { get; set; }
 
-        //    public Guid RoleId { get; set; }
-
         public UserStatus Status { get; set; }
 
         public DateTime CreateDateTime { get; set; }
@@ -24,15 +21,8 @@ namespace NGA.Domain
     public class User : UserBase
     {
         //Foreign keys
-        //  public virtual Role Role { get; set; }
-
-        public virtual ICollection<Message> Messages { get; set; }
-        public virtual ICollection<GroupUser> Groups { get; set; }
-
         public User()
         {
-            Messages = new HashSet<Message>();
-            Groups = new HashSet<GroupUser>();
         }
     }
 }

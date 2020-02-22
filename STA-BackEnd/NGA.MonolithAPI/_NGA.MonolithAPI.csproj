@@ -36,7 +36,6 @@
   <ItemGroup>
     <ProjectReference Include="..\NGA.Core\NGA.Core.csproj" />
     <ProjectReference Include="..\NGA.Data\NGA.Data.csproj" />
-    <ProjectReference Include="..\NGA.Domain\NGA.Domain.csproj" />
   </ItemGroup>
 
 

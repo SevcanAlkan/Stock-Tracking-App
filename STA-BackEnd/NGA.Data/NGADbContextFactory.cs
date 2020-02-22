@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using NGA.Core;
+using NGA.Data.Helper;
 
 namespace NGA.Data
 {
@@ -11,11 +12,8 @@ namespace NGA.Data
     {
         public NGADbContext CreateDbContext(string[] args)
         {
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(),"../NGA.MonolithAPI/"))                
-                .AddJsonFile("appsettings.json")
-                .Build();
-                
+            IConfiguration config = ConfigrationHelper.Get();
+
             StaticValues.HostAddress = (IPAddress.Loopback.ToString() + ":" + config.GetValue<int>("Host:Port")).ToString();
             StaticValues.HostSSLAddress = (IPAddress.Loopback.ToString() + ":" + config.GetValue<int>("Host:PortSSL")).ToString();
 
