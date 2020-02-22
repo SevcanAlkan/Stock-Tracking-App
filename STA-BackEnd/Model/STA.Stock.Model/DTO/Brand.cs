@@ -1,6 +1,9 @@
-﻿namespace STA.Stock.Model.DTO
+﻿using STA.Core.EntityFramework;
+
+namespace STA.Stock.Model.DTO
 {
-    class Brand
+    public class Brand : Table
     {
+        public string Name { get; set; }
     }
 }

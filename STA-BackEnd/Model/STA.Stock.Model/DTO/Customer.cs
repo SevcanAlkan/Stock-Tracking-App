@@ -1,6 +1,16 @@
-﻿namespace STA.Stock.Model.DTO
+﻿using STA.Core.EntityFramework;
+using STA.Core.Enum;
+
+namespace STA.Stock.Model.DTO
 {
-    class Customer
+    public class Customer : Table
     {
+        public string Name { get; set; }
+        public bool IsInBlackList { get; set; }
+        public string Address { get; set; }
+        public string Instagram { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public Gender Gender { get; set; }
     }
 }

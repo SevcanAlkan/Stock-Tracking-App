@@ -1,21 +1,12 @@
 ﻿using STA.Core.EntityFramework;
+using STA.Core.MongoDB;
 using System;
 
 namespace STA.Communication.Model.DTO
 {
-    public class GroupUserBase : Base
+    public class GroupUser : BaseBson
     {
         public Guid UserId { get; set; }
         public Guid GroupId { get; set; }
-    }
-
-    public class GroupUser : GroupUserBase
-    {
-        //Foreign keys
-        public virtual Group Group { get; set; }
-
-        public GroupUser()
-        {
-        }
     }
 }
