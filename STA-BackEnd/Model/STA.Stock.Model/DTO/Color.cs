@@ -1,26 +1,22 @@
 ﻿using STA.Core.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace STA.Stock.Model.DTO
 {
-    public class ModelBase : Table
+    public class ColorBase : Table
     {
         public string Name { get; set; }
-        public Guid BrandId { get; set; }
-        public string PictureId { get; set; }
+        public string Code { get; set; } // Hex or RGB
     }
 
-    public class Model : ModelBase
+    public class Color : ColorBase
     {
 
-
         //Foreign Keys...
-        public virtual Brand Brand { get; set; }
-
         public virtual ICollection<Product> Products { get; set; }
-
-        public Model()
+        public Color()
         {
             Products = new HashSet<Product>();
         }

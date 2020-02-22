@@ -1,9 +1,10 @@
 ﻿using STA.Core.EntityFramework;
 using STA.Core.Enum;
+using System.Collections.Generic;
 
 namespace STA.Stock.Model.DTO
 {
-    public class Infuluencer : Table
+    public class InfuluencerBase : Table
     {
         public string  Name { get; set; }
         public string Address { get; set; }
@@ -13,5 +14,18 @@ namespace STA.Stock.Model.DTO
         public Gender Gender { get; set; }
         public string Description { get; set; }
         public int Followers { get; set; }
+    }
+
+    public class Infuluencer : InfuluencerBase
+    {
+
+
+        //Foreign Keys...
+        public virtual ICollection<AdCampain> Campains { get; set; }
+
+        public Infuluencer()
+        {
+            Campains = new HashSet<AdCampain>();
+        }
     }
 }
