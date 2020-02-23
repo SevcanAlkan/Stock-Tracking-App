@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using AutoMapper;
 using STA.AuthenticationAPI.Config;
+using STA.EventBus;
 
 namespace STA.AuthenticationAPI
 {
@@ -122,12 +123,21 @@ namespace STA.AuthenticationAPI
             services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
+            #region Dependency Injection
+
+            services.AddSingleton(mapper);
+            services.AddTransient<ConnectionBuilder>(c => new ConnectionBuilder(Configuration.GetValue<string>("RabbitMq:Host")));
+
+            #endregion
+
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ConnectionBuilder rabbitMQ, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            rabbitMQ.CreateQueues();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

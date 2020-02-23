@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STA.Data", "Data\STA.Data\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STA.ReportAPI", "Service\STA.ReportAPI\STA.ReportAPI.csproj", "{99C0BBC1-43B7-48DC-A132-910D1C1C51A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STA.Authentication.Data", "Data\STA.Authentication.Data\STA.Authentication.Data.csproj", "{737B3451-A516-42FE-AF40-F5FC5B08DE57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{99C0BBC1-43B7-48DC-A132-910D1C1C51A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C0BBC1-43B7-48DC-A132-910D1C1C51A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C0BBC1-43B7-48DC-A132-910D1C1C51A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737B3451-A516-42FE-AF40-F5FC5B08DE57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737B3451-A516-42FE-AF40-F5FC5B08DE57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737B3451-A516-42FE-AF40-F5FC5B08DE57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737B3451-A516-42FE-AF40-F5FC5B08DE57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{CEFA66B6-9E8C-4118-AE2E-3ED204A00CFE} = {6797785C-5DB8-4AB3-B7FC-895FA8459C47}
 		{C33A4CBB-A4FE-4A85-B01F-84C64042C5FA} = {96DC9978-01F7-4810-BB29-50801C840D30}
 		{99C0BBC1-43B7-48DC-A132-910D1C1C51A3} = {0F13839F-1D1F-4217-859E-CADBE3BCA7E4}
+		{737B3451-A516-42FE-AF40-F5FC5B08DE57} = {4337E42F-95F1-4FE9-A3D1-955CB630920F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95D89EDE-1B97-4182-8F32-D65CE25E3102}

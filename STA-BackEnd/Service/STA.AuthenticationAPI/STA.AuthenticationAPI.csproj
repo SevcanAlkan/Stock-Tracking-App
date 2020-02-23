@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\STA.Core\STA.Core.csproj" />
     <ProjectReference Include="..\..\Common\STA.EventBus\STA.EventBus.csproj" />
+    <ProjectReference Include="..\..\Data\STA.Authentication.Data\STA.Authentication.Data.csproj" />
   </ItemGroup>
 
 

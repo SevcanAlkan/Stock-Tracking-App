@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +10,10 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
+using STA.Data.SubStructure;
+using STA.User.Data;
+using STA.User.Data.Service;
+using STA.User.Model.DTO;
 using STA.UserAPI.Config;
 using System;
 using System.IO;
@@ -79,6 +85,12 @@ namespace STA.UserAPI
 
             #endregion
 
+            #region Add Entity Framework and Identity Framework
+            services.AddIdentity<UserDTO, RoleDTO>()
+              .AddEntityFrameworkStores<UserDbContext>()
+              .AddDefaultTokenProviders();
+            #endregion
+
             #region AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -89,12 +101,26 @@ namespace STA.UserAPI
             services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
+            #region Dependency Injection
+
+            services.AddSingleton(mapper);
+            services.AddDbContext<UserDbContext>(db => db.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:DefaultConnection")));
+            services.AddTransient<UnitOfWork<UserDbContext>>();
+            services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient(typeof(IBaseService<,,,,>), typeof(BaseService<,,,,>));
+
+            #endregion
+
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, UserDbContext dbContext, IWebHostEnvironment env)
         {
+            DbInitializer.Initialize(dbContext);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="EventBus.RabbitMQ.Standard" Version="3.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.0.0-rc1" />
   </ItemGroup>
 
   <ItemGroup>
