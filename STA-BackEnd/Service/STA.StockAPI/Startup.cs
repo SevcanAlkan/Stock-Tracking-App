@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
+using STA.StockAPI.Config;
 using System;
 using System.IO;
 using System.Reflection;
@@ -48,7 +50,7 @@ namespace STA.StockAPI
             });
             #endregion
 
-            #region
+            #region Swagger
 
             services.AddSwaggerGen(c =>
             {
@@ -75,6 +77,16 @@ namespace STA.StockAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #endregion
+
+            #region AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperConfig());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
             services.AddControllers();

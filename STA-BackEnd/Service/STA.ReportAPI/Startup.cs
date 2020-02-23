@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
+using STA.ReportAPI.Config;
 
 namespace STA.ReportAPI
 {
@@ -54,7 +56,7 @@ namespace STA.ReportAPI
             });
             #endregion
 
-            #region
+            #region Swagger
 
             services.AddSwaggerGen(c =>
             {
@@ -81,6 +83,16 @@ namespace STA.ReportAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #endregion
+
+            #region AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperConfig());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
             services.AddControllers();
