@@ -6,10 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace STA.AuthenticationAPI
@@ -79,6 +82,34 @@ namespace STA.AuthenticationAPI
             });
             #endregion
 
+            #region
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "Authentication API",
+                    Version = "v1",
+                    Description = "Stock Tracking Application Authentication API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sevcan ALKAN",
+                        Email = "sevcanalkan@outlook.com.tr",
+                        Url = new Uri("https://github.com/SevcanAlkan"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://github.com/SevcanAlkan/Stock-Tracking-App/blob/master/LICENSE"),
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            #endregion
+
             services.AddControllers();
         }
 
@@ -93,6 +124,13 @@ namespace STA.AuthenticationAPI
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication API");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseCors(myCorsPolicy);

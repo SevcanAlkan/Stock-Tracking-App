@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\STA.Core\STA.Core.csproj" />
     <ProjectReference Include="..\..\Model\STA.User.Model\STA.User.Model.csproj" />
-    <ProjectReference Include="..\..\STA.Data\STA.Data.csproj" />
+    <ProjectReference Include="..\STA.Data\STA.Data.csproj" />
   </ItemGroup>
 
 </Project>

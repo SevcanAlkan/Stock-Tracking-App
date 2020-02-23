@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace STA.StockAPI
 {
@@ -44,6 +48,35 @@ namespace STA.StockAPI
             });
             #endregion
 
+            #region
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Stock API",
+                    Version = "v1",
+                    Description = "Stock Tracking Application Stock API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sevcan ALKAN",
+                        Email = "sevcanalkan@outlook.com.tr",
+                        Url = new Uri("https://github.com/SevcanAlkan"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://github.com/SevcanAlkan/Stock-Tracking-App/blob/master/LICENSE"),
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            #endregion
+
             services.AddControllers();
         }
 
@@ -58,6 +91,13 @@ namespace STA.StockAPI
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Stock API");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseCors(myCorsPolicy);

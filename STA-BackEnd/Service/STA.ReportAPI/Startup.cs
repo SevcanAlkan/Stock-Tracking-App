@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using STA.Core.Filter;
 using STA.Core.Middleware;
@@ -51,6 +54,35 @@ namespace STA.ReportAPI
             });
             #endregion
 
+            #region
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Report API",
+                    Version = "v1",
+                    Description = "Stock Tracking Application Report API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sevcan ALKAN",
+                        Email = "sevcanalkan@outlook.com.tr",
+                        Url = new Uri("https://github.com/SevcanAlkan"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = new Uri("https://github.com/SevcanAlkan/Stock-Tracking-App/blob/master/LICENSE"),
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            #endregion
+
             services.AddControllers();
         }
 
@@ -65,6 +97,13 @@ namespace STA.ReportAPI
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report API");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseCors(myCorsPolicy);
