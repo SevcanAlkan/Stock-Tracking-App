@@ -14,6 +14,8 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using AutoMapper;
+using STA.AuthenticationAPI.Config;
 
 namespace STA.AuthenticationAPI
 {
@@ -82,7 +84,7 @@ namespace STA.AuthenticationAPI
             });
             #endregion
 
-            #region
+            #region Swagger
 
             services.AddSwaggerGen(c =>
             {
@@ -108,6 +110,16 @@ namespace STA.AuthenticationAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #endregion
+
+            #region AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperConfig());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
             services.AddControllers();

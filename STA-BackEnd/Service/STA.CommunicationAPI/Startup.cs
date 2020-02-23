@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using STA.CommunicationAPI.Config;
 using STA.Core.Filter;
 using STA.Core.Middleware;
 using System;
@@ -48,7 +50,7 @@ namespace STA.CommunicationAPI
             });
             #endregion
 
-            #region
+            #region Swagger
 
             services.AddSwaggerGen(c =>
             {
@@ -75,6 +77,16 @@ namespace STA.CommunicationAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #endregion
+
+            #region AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperConfig());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
             #endregion
 
             services.AddControllers();
